@@ -9,6 +9,7 @@ into Claude Code and Codex.
 ```
 README.md
 install.sh
+default-skills.txt          skill names to load for every response
 <family>/                  a group of skills from one source
   skills-lock.json         optional: upstream source + hash per skill
   <skill>/
@@ -43,11 +44,23 @@ git clone <this repo> ~/Workspace/skills
 ~/.claude/skills/unslop  →  <repo>/pstack-skills/unslop
 ```
 
+It also reads `default-skills.txt` and writes a marked section into
+`~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md`. `unslop` is listed there, so
+both agents apply its writing rules to every response. Claude loads the linked
+skill as an import. Codex reads the linked skill at the start of each task.
+The installer preserves instructions outside the marked section and replaces
+only that section on later runs. Removing a name from `default-skills.txt` and
+rerunning the installer removes its default instruction but keeps its skill
+link. Start a new agent session after changing defaults.
+
 To use other target directories, give them as arguments:
 
 ```bash
 ./install.sh ~/.claude/skills ~/.agents/skills
 ```
+
+Custom targets get skill links. When an argument names either standard target
+(`~/.claude/skills` or `~/.codex/skills`), its instruction file is updated too.
 
 To see the changes before they occur, set `DRY_RUN=1`.
 

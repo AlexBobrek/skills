@@ -1,0 +1,2 @@
+# One skill name per line. These skills are loaded for every response.
+unslop
