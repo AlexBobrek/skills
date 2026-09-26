@@ -27,12 +27,13 @@ run() {
   if [ "$DRY_RUN" = 1 ]; then echo "  (dry run) $*"; else "$@"; fi
 }
 
-# Collect skills as "name<TAB>absolute-path".
+# Collect skills as "name<TAB>family<TAB>absolute-path" so output shows
+# which family supplied each link as this repo gains more sources.
 skills="$(
   for skill_md in "$REPO"/*/*/SKILL.md; do
     [ -e "$skill_md" ] || continue
     dir="$(dirname "$skill_md")"
-    printf '%s\t%s\n' "$(basename "$dir")" "$dir"
+    printf '%s\t%s\t%s\n' "$(basename "$dir")" "$(basename "$(dirname "$dir")")" "$dir"
   done | sort
 )"
 
@@ -47,7 +48,7 @@ dupes="$(printf '%s\n' "$skills" | cut -f1 | uniq -d)"
 if [ -n "$dupes" ]; then
   echo "Skill names used in more than one family:" >&2
   for name in $dupes; do
-    printf '%s\n' "$skills" | awk -F'\t' -v n="$name" '$1 == n { print "  " $2 }' >&2
+    printf '%s\n' "$skills" | awk -F'\t' -v n="$name" '$1 == n { print "  " $3 }' >&2
   done
   echo "Rename one of each pair, then run again." >&2
   exit 1
@@ -76,7 +77,7 @@ for target in "${TARGETS[@]}"; do
     esac
   done
 
-  while IFS="$(printf '\t')" read -r name src; do
+  while IFS="$(printf '\t')" read -r name family src; do
     link="$target/$name"
     if [ -L "$link" ]; then
       current="$(readlink "$link")"
@@ -86,7 +87,7 @@ for target in "${TARGETS[@]}"; do
       case "$current" in
         "$REPO"/*)
           # Skill moved to another family in this repo.
-          echo "  relink        $name"
+          echo "  relink        $name ($family)"
           run ln -sfn "$src" "$link"
           ;;
         *)
@@ -96,7 +97,7 @@ for target in "${TARGETS[@]}"; do
     elif [ -e "$link" ]; then
       echo "  skip          $name (a real file or directory is there)" >&2
     else
-      echo "  link          $name"
+      echo "  link          $name ($family)"
       run ln -s "$src" "$link"
     fi
   done <<EOF

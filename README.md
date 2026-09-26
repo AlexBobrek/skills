@@ -26,6 +26,7 @@ Current families:
 | Family | Source |
 | --- | --- |
 | `matt-pocock-skills` | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| `pstack-skills` | [cursor/plugins pstack](https://github.com/cursor/plugins/tree/main/pstack), by [poteto](https://github.com/poteto) |
 
 ## Install on a machine
 
@@ -39,6 +40,7 @@ git clone <this repo> ~/Workspace/skills
 
 ```
 ~/.claude/skills/tdd  →  <repo>/matt-pocock-skills/tdd
+~/.claude/skills/unslop  →  <repo>/pstack-skills/unslop
 ```
 
 To use other target directories, give them as arguments:
@@ -60,6 +62,9 @@ The script is safe to run again. It:
 Run `install.sh` again after each `git pull` that adds, removes or renames a
 skill. A change to an existing skill needs no step, because the link points
 at the files in this repo.
+
+The installer reports the family for each new link, such as
+`link unslop (pstack-skills)`.
 
 ## Add a family
 
