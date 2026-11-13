@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Link every skill in every family of this repo into each agent's skills directory.
 #
-#   ./install.sh                 link into ~/.claude/skills and ~/.codex/skills
+#   ./install.sh                 link into ~/.claude/skills, ~/.codex/skills and
+#                                ~/.gemini/config/skills (Antigravity)
 #   ./install.sh DIR [DIR...]    link into the given directories instead
 #   DRY_RUN=1 ./install.sh       print what would change, change nothing
 #
-# For the standard Claude and Codex targets, also sync default-skills.txt into
-# a managed block in ~/.claude/CLAUDE.md and ~/.codex/AGENTS.md.
+# For the standard Claude, Codex and Antigravity targets, also sync
+# default-skills.txt into a managed block in ~/.claude/CLAUDE.md,
+# ~/.codex/AGENTS.md and ~/.gemini/GEMINI.md.
 #
 # A family is a top-level directory of this repo. A skill is a directory in a
 # family that contains SKILL.md. Each skill is linked as <target>/<skill-name>.
@@ -23,7 +25,7 @@ DRY_RUN="${DRY_RUN:-0}"
 if [ "$#" -gt 0 ]; then
   TARGETS=("$@")
 else
-  TARGETS=("$HOME/.claude/skills" "$HOME/.codex/skills")
+  TARGETS=("$HOME/.claude/skills" "$HOME/.codex/skills" "$HOME/.gemini/config/skills")
 fi
 
 run() {
@@ -129,7 +131,7 @@ sync_defaults() {
   if [ "${#defaults[@]}" -gt 0 ]; then
     [ ! -s "$tmp" ] || printf '\n' >> "$tmp"
     printf '%s\n' "$start" '## Default skills' >> "$tmp"
-    if [ "$agent" = codex ]; then
+    if [ "$agent" != claude ]; then
       printf '%s\n' 'At the start of every task, read each skill below. Apply its rules before every response:' >> "$tmp"
       for name in "${defaults[@]+"${defaults[@]}"}"; do
         printf '%s\n' "- $skills_dir/$name/SKILL.md" >> "$tmp"
@@ -219,5 +221,6 @@ EOF
   case "$target" in
     "$HOME/.claude/skills") sync_defaults "$HOME/.claude/CLAUDE.md" claude "$target" ;;
     "$HOME/.codex/skills") sync_defaults "$HOME/.codex/AGENTS.md" codex "$target" ;;
+    "$HOME/.gemini/config/skills") sync_defaults "$HOME/.gemini/GEMINI.md" antigravity "$target" ;;
   esac
 done

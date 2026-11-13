@@ -2,7 +2,7 @@
 
 One source for the agent skills I use on all machines and in all projects.
 Clone this repo once per machine, then run `install.sh` to link the skills
-into Claude Code and Codex.
+into Claude Code, Codex and Google Antigravity.
 
 ## Layout
 
@@ -20,7 +20,7 @@ default-skills.txt          skill names to load for every response
 
 A **family** is a top-level directory. A **skill** is a directory in a family
 that contains `SKILL.md`. Skills stay one level below their family, because
-Claude Code and Codex do not search into subdirectories of a skills directory.
+Claude Code, Codex and Antigravity do not search into subdirectories of a skills directory.
 
 Current families:
 
@@ -37,7 +37,8 @@ git clone <this repo> ~/Workspace/skills
 ```
 
 `install.sh` puts one symlink for each skill into `~/.claude/skills` and
-`~/.codex/skills`:
+`~/.codex/skills` and `~/.gemini/config/skills` (the global skills directory
+of Antigravity):
 
 ```
 ~/.claude/skills/tdd  →  <repo>/matt-pocock-skills/tdd
@@ -45,9 +46,10 @@ git clone <this repo> ~/Workspace/skills
 ```
 
 It also reads `default-skills.txt` and writes a marked section into
-`~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md`. `unslop` is listed there, so
-both agents apply its writing rules to every response. Claude loads the linked
-skill as an import. Codex reads the linked skill at the start of each task.
+`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` and `~/.gemini/GEMINI.md`.
+`unslop` is listed there, so each agent applies its writing rules to every
+response. Claude loads the linked skill as an import. Codex and Antigravity
+read the linked skill at the start of each task.
 The section ends with a scope paragraph: the default skills apply only to
 prose that the agent writes, and a format from the user or an invoked skill,
 a glossary term, or the conventions of an edited document take precedence.
@@ -63,7 +65,7 @@ To use other target directories, give them as arguments:
 ```
 
 Custom targets get skill links. When an argument names either standard target
-(`~/.claude/skills` or `~/.codex/skills`), its instruction file is updated too.
+(`~/.claude/skills`, `~/.codex/skills` or `~/.gemini/config/skills`), its instruction file is updated too.
 
 To see the changes before they occur, set `DRY_RUN=1`.
 
