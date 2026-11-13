@@ -48,6 +48,9 @@ It also reads `default-skills.txt` and writes a marked section into
 `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md`. `unslop` is listed there, so
 both agents apply its writing rules to every response. Claude loads the linked
 skill as an import. Codex reads the linked skill at the start of each task.
+The section ends with a scope paragraph: the default skills apply only to
+prose that the agent writes, and a format from the user or an invoked skill,
+a glossary term, or the conventions of an edited document take precedence.
 The installer preserves instructions outside the marked section and replaces
 only that section on later runs. Removing a name from `default-skills.txt` and
 rerunning the installer removes its default instruction but keeps its skill

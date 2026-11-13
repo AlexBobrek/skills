@@ -140,6 +140,10 @@ sync_defaults() {
         printf '%s\n' "@$skills_dir/$name/SKILL.md" >> "$tmp"
       done
     fi
+    # Scope and precedence for every default skill. Kept here, not in the
+    # skills, so that vendored skills stay equal to their upstream source.
+    printf '%s\n' '' \
+      'These rules apply to prose that you write. They do not apply to code, commands, identifiers, quoted text, or text that you did not write and were not asked to revise. A format that the user or an invoked skill specifies takes precedence: keep its markers, labels and layout exactly, and apply these rules to the words inside it. A term that the project glossary defines takes precedence over a word list. When you edit a document, follow its conventions for headings, quotes and punctuation.' >> "$tmp"
     printf '%s\n' "$end" >> "$tmp"
   fi
 
