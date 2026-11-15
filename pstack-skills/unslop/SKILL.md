@@ -22,6 +22,8 @@ Rule numbers are stable ids that other skills cite. A removed rule leaves a gap.
 3. **Superficial -ing phrases.** "highlighting...", "ensuring...", "reflecting...", "showcasing...", "fostering...". Delete or expand with real sources.
 5. **Vague attributions.** "Experts believe", "Industry reports suggest", "Some critics argue". Name the source or delete.
 
+6. **Defined terminology** If the project defines specific terms in CONTEXT.md, use them where possible
+
 ### Language
 
 7. **AI vocabulary.** Additionally, crucial, delve, enduring, enhance, fostering, garner, interplay, intricate, landscape (abstract), pivotal, showcase, tapestry (abstract), testament, underscore (as a verb), vibrant. Replace with plain words.
