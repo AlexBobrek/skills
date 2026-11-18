@@ -112,8 +112,11 @@ upstream version.
 
 In `create-verification-skill`:
 
-- Generated skills go in `.claude/skills/verify-<app>/`, not
-  `.cursor/skills/`.
+- Generated skills go in `<project-root>/.claude/skills/verify-<app>/`, not
+  `.cursor/skills/`. A "Where the generated skill goes" section finds the
+  project root with git and rules out user-level skills directories, because
+  an agent can read a bare `.claude/skills/` path as relative to the
+  installed skill in `~/.claude/skills`.
 - Launch starts servers in the background, records PIDs, and waits with a
   time limit, because a foreground command blocks the agent's shell.
 - The drive steps must run from a shell. They cannot depend on browser tools
@@ -123,7 +126,8 @@ In `create-verification-skill`:
 
 In `maintain-verification-skill`:
 
-- Step 0 looks for the target in `.claude/skills/verify-*/`.
+- Step 0 looks for the target in `<project-root>/.claude/skills/verify-*/`
+  and never in user-level skills directories.
 - Step 2 runs the source readers as parallel `Explore` subagents, which
   cannot edit files, and reads the sources in turn when the Agent tool is
   missing.
