@@ -1,0 +1,5 @@
+interface:
+  display_name: "Maintain Verification Skill"
+  short_description: "Audit a verify skill's feature map against source and the live app"
+policy:
+  allow_implicit_invocation: false

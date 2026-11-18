@@ -99,3 +99,37 @@ skill. Upstream groups skills into category directories
 (`skills/engineering/tdd`), but this repo keeps them flat
 (`matt-pocock-skills/tdd`). To update, copy each upstream skill directory over
 the one in this repo, then review the diff.
+
+## Update `pstack-skills` from upstream
+
+`pstack-skills/skills-lock.json` gives the upstream path and the SHA-256 of
+each upstream `SKILL.md` at the time of import. Upstream keeps skills in
+`pstack/skills/<skill>`, the same flat shape as this repo.
+
+`create-verification-skill` and `maintain-verification-skill` are adapted
+from upstream, which targets Cursor. Reapply these changes after copying a new
+upstream version.
+
+In `create-verification-skill`:
+
+- Generated skills go in `.claude/skills/verify-<app>/`, not
+  `.cursor/skills/`.
+- Launch starts servers in the background, records PIDs, and waits with a
+  time limit, because a foreground command blocks the agent's shell.
+- The drive steps must run from a shell. They cannot depend on browser tools
+  that only some sessions have.
+- Step 4 asks a fresh subagent to run the generated skill cold.
+- Step 5 tells the user to start a new session if `/verify-<app>` is missing.
+
+In `maintain-verification-skill`:
+
+- Step 0 looks for the target in `.claude/skills/verify-*/`.
+- Step 2 runs the source readers as parallel `Explore` subagents, which
+  cannot edit files, and reads the sources in turn when the Agent tool is
+  missing.
+- Step 6 says how to open the PR with `gh`, and to stop after the commit when
+  there is no GitHub remote.
+- Run notes go in the session's scratchpad directory when it has one.
+
+Both skills have an `agents/openai.yaml` that turns off implicit invocation in
+Codex, to match `disable-model-invocation: true`.
